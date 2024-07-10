@@ -83,3 +83,40 @@ const atualizarListaDeAtividade = () => {
 
 }
 atualizarListaDeAtividade()
+
+
+
+const salvarAtividade = (event) => {
+    event.preventDefault()
+}
+
+
+const criarDiasSelecao = () => {
+    const dias = [
+        "2024-02-28",
+        "2024-02-29",
+        "2024-03-01",
+        "2024-03-02",
+        "2024-03-03"
+    ]
+
+    let diasSelecao = ''
+
+
+    for (let dia of dias) {
+        const formatar = formatador(dia)
+        const diaFormatado =
+            `
+        ${formatar.dia.numerico}de
+        ${formatar.mes}
+        `
+        diasSelecao += `
+        <option value="${dia}">${diaFormatado}</option>
+        `
+    }
+
+    document.querySelector('select[name="dia"]')
+        .innerHTML = diasSelecao
+}
+
+criarDiasSelecao()

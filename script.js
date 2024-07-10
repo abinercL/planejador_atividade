@@ -6,7 +6,7 @@ const atividade = {
 }
 
 //lista, array, vetor[]
-const atividades = [
+let atividades = [
     atividade,
     {
         nome: 'Academia em grupo',
@@ -19,6 +19,8 @@ const atividades = [
         finalizada: true
     },
 ]
+
+atividades = []
 
 //arrow function
 const criarItemDeAtividade = (atividade) => {
@@ -37,7 +39,22 @@ const criarItemDeAtividade = (atividade) => {
     </div>
     `
 }
-const section = document.querySelector('section')
-for (let atividade of atividades) {
-    section.innerHTML += criarItemDeAtividade(atividade)
+
+const atualizarListaDeAtividade = () => {
+
+    const section = document.querySelector('section')
+
+    //verificar se a lista esta vazia
+    if (atividades.length == 0) {
+        section.innerHTML = `<p>Nenhuma atividade cadastrada.</p>`
+        return
+    }
+
+
+
+    for (let atividade of atividades) {
+        section.innerHTML += criarItemDeAtividade(atividade)
+    }
+
 }
+atualizarListaDeAtividade()

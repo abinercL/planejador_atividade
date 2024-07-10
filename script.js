@@ -42,7 +42,13 @@ let atividades = [
 
 //arrow function
 const criarItemDeAtividade = (atividade) => {
-    let input = ' <input type ="checkbox" '
+    let input = `
+    <input
+    onchange="concluirAtividade(event)"
+    value="${atividade.data}"
+    type ="checkbox" 
+    
+    `
 
     if (atividade.finalizada) {
         input += 'checked'
@@ -68,6 +74,7 @@ const criarItemDeAtividade = (atividade) => {
 const atualizarListaDeAtividade = () => {
 
     const section = document.querySelector('section')
+    section.innerHTML = ''
 
     //verificar se a lista esta vazia
     if (atividades.length == 0) {
@@ -88,6 +95,31 @@ atualizarListaDeAtividade()
 
 const salvarAtividade = (event) => {
     event.preventDefault()
+    const dadosFormulario = new FormData(event.target)
+
+    const nome = dadosFormulario.get('atividade')
+    const dia = dadosFormulario.get('dia')
+    const hora = dadosFormulario.get('hora')
+    const data = `${dia} ${hora}`
+
+    const novaAtividade = {
+        nome,
+        data,
+        finalizada: false
+    }
+
+    const atividadeExiste = atividades.find((atividade) => {
+        return atividade.data == novaAtividade.data
+    })
+
+    if (atividadeExiste) {
+        return alert('Dia/Hora não Disponivel')
+
+    }
+
+    atividades = [novaAtividade, ...atividades]
+    atualizarListaDeAtividade()
+
 }
 
 
@@ -120,3 +152,32 @@ const criarDiasSelecao = () => {
 }
 
 criarDiasSelecao()
+
+
+const criarHorasSelecao = () => {
+    let horasDisponiveis = ''
+
+    for (let i = 6; i < 23; i++) {
+        horasDisponiveis += `<option value="${i}:00">${i}:00</option>`
+        horasDisponiveis += `<option value="${i}:30">${i}:30</option>`
+    }
+
+
+    document.querySelector('select[name="hora"]')
+        .innerHTML = horasDisponiveis
+}
+criarHorasSelecao()
+
+const concluirAtividade = (event) => {
+    const input = event.target
+    const dataDesteImput = input.value
+
+    const atividade = atividades.find((atividade) => {
+        return atividade.data == dataDesteImput
+    })
+
+    if (!atividade) {
+        return
+    }
+    atividade.finalizada = !atividade.finalizada
+}

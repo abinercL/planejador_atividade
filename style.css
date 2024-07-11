@@ -41,4 +41,11 @@ button {
     background-color: #09090b;
     border: 1px solid #27272a;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.field-wrapper:focus-within {
+    outline: 2px solid yellowgreen;
 }
